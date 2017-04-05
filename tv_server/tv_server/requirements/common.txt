@@ -1,0 +1,7 @@
+# requirements/common.txt
+Django==1.10.6
+MySQL-python==1.2.5
+Pillow==3.3.1
+argon2-cffi==16.1.0
+djangorestframework==3.6.2
+django-guardian==1.4.6

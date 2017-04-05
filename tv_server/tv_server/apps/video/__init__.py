@@ -1,0 +1,1 @@
+default_app_config = 'tv_server.apps.video.apps.VideoConfig'

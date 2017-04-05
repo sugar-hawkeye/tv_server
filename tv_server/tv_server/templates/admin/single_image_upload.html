@@ -1,0 +1,14 @@
+{% load static %}
+
+
+{#<link href="{% static 'css/single_image_upload.css' %}" rel="stylesheet" type="text/css" />#}
+{#<script src="{% static "js/single_image_upload.js" %}" type="text/javascript"></script>#}
+<div class="fileupload">
+    {% if icon %}
+        <img  id="pic" src="{{ icon }}">
+    {% else %}
+        <img  id="pic" src="{% static 'images/file_add_btn.png'%}">
+    {% endif %}
+
+    <input type="file" id="id_icon" name="icon" accept="image/*" onchange="preImg();"/>
+</div>
