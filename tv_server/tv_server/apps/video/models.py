@@ -25,8 +25,8 @@ class Video(models.Model):
     is_serial = models.BooleanField(default=False,verbose_name="是否是剧集")
 
     channel_id = models.ForeignKey(Channel,on_delete=models.SET_NULL,verbose_name="所属频道",null=True,blank=True)
-    tag_id = models.ManyToManyField(Tag, verbose_name="分类标签")
-    tag_info = models.ManyToManyField(TagInfo,verbose_name="标签详情")
+    tag_id = models.ManyToManyField(Tag, verbose_name="一级标签")
+    tag_info = models.ManyToManyField(TagInfo,verbose_name="二级标签")
 
     class Meta:
         db_table="video"
@@ -46,6 +46,14 @@ class Cover(models.Model):
     image_type = models.CharField(max_length=20,verbose_name="图片类型")
     cover_pic = models.ImageField(upload_to=UploadUtils.video_path,verbose_name="图片")
 
+    class Meta:
+        get_latest_by = 'created_at'
+        ordering = ['created_at']
+        verbose_name = '视频封面'
+        verbose_name_plural = '视频封面'
+
+    def __unicode__(self):
+        return self.video_id.video_name
 
 class VideoList(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -64,6 +72,11 @@ class VideoList(models.Model):
         db_table="video_list"
         get_latest_by = 'created_at'
         ordering = ['created_at']
+        verbose_name = '视频列表'
+        verbose_name_plural = '视频列表'
+
+    def __unicode__(self):
+        return self.video_id.video_name
 # 149680867
 
 class VideoCount(models.Model):

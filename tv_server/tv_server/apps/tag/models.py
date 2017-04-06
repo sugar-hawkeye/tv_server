@@ -13,13 +13,13 @@ class Tag(models.Model):
     edited_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, editable=False, on_delete=models.SET_NULL, verbose_name="创建人",null=True,blank=True)
 
-    title = models.CharField(max_length=15,verbose_name='标签分类名')
+    title = models.CharField(max_length=15,verbose_name='一级标签名')
     priority = models.IntegerField(verbose_name="排列顺序")
     is_publish = models.BooleanField(default=False, verbose_name="是否发布")
     channel_id = models.ForeignKey(Channel, on_delete=models.SET_NULL, verbose_name="所属频道",null=True)
 
     def __unicode__(self):
-        return unicode(self.channel_id) + u'---' + self.title
+        return unicode(self.channel_id) + u'--' + self.title
 
     class Meta:
         db_table="tag"
@@ -33,8 +33,8 @@ class TagInfo(models.Model):
     edited_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User,editable=False,on_delete=models.SET_NULL,verbose_name="创建人",null=True,blank=True)
 
-    tag_id = models.ForeignKey(Tag,on_delete=models.SET_NULL,verbose_name='标签分类名',null=True)
-    title = models.CharField(max_length=15,verbose_name="标签名")
+    tag_id = models.ForeignKey(Tag,on_delete=models.SET_NULL,verbose_name='一级标签',null=True)
+    title = models.CharField(max_length=15,verbose_name="二级标签名")
     priority = models.IntegerField(verbose_name="排列顺序")
 
     is_publish = models.BooleanField(default=False,verbose_name="是否发布")

@@ -10,13 +10,14 @@ class SingleImageInput(ClearableFileInput):
 
 
     def render(self, name, value, attrs=None):
-        if name == 'icon' and value:
-            return mark_safe(render_to_string(self.template_name,context={'icon':'http://127.0.0.1:8000'+value.url}))
-        else:
-            return mark_safe(render_to_string(self.template_name,))
+        context = {'id_key':attrs['id'],'name':name,'method':name+'()'}
+        if value :
+            context['icon'] = 'http://127.0.0.1:8000' + value.url
+            # context.setdefault('icon',default=('http://127.0.0.1:8000' + value.url))
+        return mark_safe(render_to_string(self.template_name, context=context))
 
     class Media:
         css = {
             'all': ('css/single_image_upload.css',)
         }
-        js = ('js/single_image_upload.js',)
+

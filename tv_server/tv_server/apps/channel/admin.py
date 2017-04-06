@@ -10,7 +10,7 @@ from forms import ChannelForm
 
 
 class ChannelAdmin(admin.ModelAdmin):
-    fields = ('title', 'icon', 'priority','is_publish')
+    fields = ('title', 'cover', 'priority','is_publish')
     list_display = ('title','show_icon','created_by','created_at','is_publish')
 
     form = ChannelForm
@@ -23,22 +23,14 @@ class ChannelAdmin(admin.ModelAdmin):
         obj.created_by = request.user
         super(ChannelAdmin,self).save_model(request,obj,form,change)
 
-    def get_form(self, request, obj=None, **kwargs):
-        return super(ChannelAdmin, self).get_form(request, obj, **kwargs)
 
-    def get_urls(self):
-        return super(ChannelAdmin,self).get_urls()
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-
-        return super(ChannelAdmin,self).change_view(request,object_id,form_url,extra_context)
 
     def show_icon(self,obj):
-        if obj.icon:
-            return u'<a href="%s%s"><img src="http://127.0.0.1:8000%s%s" height=60px/></a>' % (MEDIA_URL,obj.icon,MEDIA_URL,obj.icon)
+        if obj.cover:
+            return u'<a href="%s%s"><img src="http://127.0.0.1:8000%s%s" height=60px/></a>' % (MEDIA_URL,obj.cover,MEDIA_URL,obj.cover)
         else:
             return u'&nbsp;'
-    show_icon.short_description = "Icon"
+    show_icon.short_description = "Cover"
     show_icon.allow_tags = True
 
 admin.AdminSite.site_header = '视频管理系统'
