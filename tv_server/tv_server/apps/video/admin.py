@@ -1,27 +1,49 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.contrib import messages
+
 from tv_server.settings.common import MEDIA_URL
 from models import Video,Cover,VideoList
 
-from forms import CoverForm
+from forms import CoverForm,VideoListForm
 
-class CoverAdmin(admin.TabularInline):
+class CoverAdmin(admin.ModelAdmin):
     form = CoverForm
+    list_display = ('video_id','image_type','show_icon')
 
-    model = Cover
+    def save_model(self, request, obj, form, change):
+        if not request.FILES:
+            messages.error(request, ' 图片不能为空')
+            obj.cover_pic = None
 
-class VideoListAdmin(admin.TabularInline):
-    model = VideoList
-    list_display = ('video_id', 'video_name', 'video_index','player_url','icon','is_publish')
+        else:
+            obj.created_by = request.user
+            super(CoverAdmin, self).save_model(request, obj, form, change)
+
+
+
+
+    def show_icon(self,obj):
+        if obj.cover_pic:
+            return u'<a href="%s%s"><img src="http://127.0.0.1:8000%s%s" height=60px></img></a>' % (MEDIA_URL,obj.cover_pic,MEDIA_URL,obj.cover_pic)
+        else:
+            return u'&nbsp;'
+    show_icon.short_description = "封面"
+    show_icon.allow_tags = True
+
+class VideoListAdmin(admin.ModelAdmin):
+    # model = VideoList
+    list_display = ('video_id', 'video_name', 'video_index','show_icon','icon','is_publish')
+    form = VideoListForm
     # search_fields = ('video_id','video_name')
 
-    #
-    # def save_model(self, request, obj, form, change):
-    #     obj.created_by = request.user
-    #     super(VideoListAdmin, self).save_model(request, obj, form, change)
-
-
-
+    def show_icon(self,obj):
+        if obj.player_url:
+            return u'<a href="%s%s"><video src="http://127.0.0.1:8000%s%s" height=60px></video></a>' % (MEDIA_URL,obj.player_url,MEDIA_URL,obj.player_url)
+        else:
+            return u'&nbsp;'
+    show_icon.short_description = "player_url"
+    show_icon.allow_tags = True
 
 
 class VideoAdmin(admin.ModelAdmin):
@@ -40,10 +62,9 @@ class VideoAdmin(admin.ModelAdmin):
 
     search_fields = ('video_name',)
     filter_horizontal = ('tag_id','tag_info')
-    inlines = [
-        CoverAdmin,
-        VideoListAdmin,
-    ]
+    # inlines = [
+    #     CoverAdmin,
+    # ]
 
 
 
@@ -71,4 +92,5 @@ class VideoAdmin(admin.ModelAdmin):
     # get_tag_info.short_description = "二级标签"
 
 admin.site.register(Video,VideoAdmin)
-# admin.site.register(VideoList,VideoListAdmin)
+admin.site.register(VideoList,VideoListAdmin)
+admin.site.register(Cover,CoverAdmin)

@@ -41,6 +41,8 @@ class Video(models.Model):
 class Cover(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, editable=False, on_delete=models.SET_NULL, verbose_name="创建人", null=True,
+                                   blank=True)
 
     video_id = models.ForeignKey(Video,on_delete=models.CASCADE,verbose_name="视频id")
     image_type = models.CharField(max_length=20,verbose_name="图片类型")
@@ -55,16 +57,19 @@ class Cover(models.Model):
     def __unicode__(self):
         return self.video_id.video_name
 
+
+
+
 class VideoList(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, editable=False, on_delete=models.SET_NULL, verbose_name="创建人",null=True,blank=True)
 
     video_id = models.ForeignKey(Video,on_delete=models.CASCADE)
-    video_name = models.CharField(max_length=50)
-    video_index = models.IntegerField()
-    player_url = models.FileField(upload_to=UploadUtils.video_path)
-    icon = models.ImageField(upload_to=UploadUtils.video_path)
+    video_name = models.CharField(max_length=50,verbose_name="视频名")
+    video_index = models.IntegerField(verbose_name="剧集数",default=0,help_text="如果是剧集则按集数填写")
+    player_url = models.FileField(upload_to=UploadUtils.video_path,verbose_name="视频上传")
+    icon = models.ImageField(upload_to=UploadUtils.video_path,verbose_name="封面")
     desc = models.CharField(max_length=8,null=True,blank=True,help_text="如果是剧集则必须填写")
     is_publish = models.BooleanField(default=False, verbose_name="是否发布")
 

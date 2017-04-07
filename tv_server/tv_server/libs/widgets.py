@@ -1,7 +1,6 @@
 from django.forms import FileInput,Widget,ClearableFileInput
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
-
 from tv_server.settings.common import BASE_DIR
 
 class SingleImageInput(ClearableFileInput):
@@ -10,9 +9,9 @@ class SingleImageInput(ClearableFileInput):
 
 
     def render(self, name, value, attrs=None):
-        context = {'id_key':attrs['id'],'name':name,'method':name+'()'}
+        context = {'id_key':attrs['id'],'name':name,'method':str(name).replace('-','_')+attrs['id'].replace('-','_')+'()'}
         if value :
-            context['icon'] = 'http://127.0.0.1:8000' + value.url
+            context['file'] = 'http://127.0.0.1:8000' + value.url
             # context.setdefault('icon',default=('http://127.0.0.1:8000' + value.url))
         return mark_safe(render_to_string(self.template_name, context=context))
 
