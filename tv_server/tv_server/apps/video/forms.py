@@ -24,6 +24,6 @@ class VideoListForm(ModelForm):
         model = VideoList
         fields = '__all__'
         widgets = {
-            'player_url' : SingleImageInput,
-            'icon':SingleImageInput,
+            # 'video_url' : SingleImageInput,
+            'video_icon':SingleImageInput,
         }

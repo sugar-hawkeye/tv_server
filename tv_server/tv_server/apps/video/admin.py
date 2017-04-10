@@ -33,17 +33,17 @@ class CoverAdmin(admin.ModelAdmin):
 
 class VideoListAdmin(admin.ModelAdmin):
     # model = VideoList
-    list_display = ('video_id', 'video_name', 'video_index','show_icon','icon','is_publish')
+    list_display = ('video_id', 'video_name', 'video_index','show_video','video_icon','is_publish')
     form = VideoListForm
     # search_fields = ('video_id','video_name')
 
-    def show_icon(self,obj):
-        if obj.player_url:
-            return u'<a href="%s%s"><video src="http://127.0.0.1:8000%s%s" height=60px></video></a>' % (MEDIA_URL,obj.player_url,MEDIA_URL,obj.player_url)
+    def show_video(self,obj):
+        if obj.video_url:
+            return u'<a href="%s%s"><video src="http://127.0.0.1:8000%s%s" height=60px></video></a>' % (MEDIA_URL,obj.video_url,MEDIA_URL,obj.video_url)
         else:
             return u'&nbsp;'
-    show_icon.short_description = "player_url"
-    show_icon.allow_tags = True
+    show_video.short_description = "视频"
+    show_video.allow_tags = True
 
 
 class VideoAdmin(admin.ModelAdmin):

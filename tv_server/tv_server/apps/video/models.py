@@ -65,11 +65,11 @@ class VideoList(models.Model):
     edited_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, editable=False, on_delete=models.SET_NULL, verbose_name="创建人",null=True,blank=True)
 
-    video_id = models.ForeignKey(Video,on_delete=models.CASCADE)
+    video_id = models.ForeignKey(Video,on_delete=models.CASCADE,verbose_name='视频id')
     video_name = models.CharField(max_length=50,verbose_name="视频名")
     video_index = models.IntegerField(verbose_name="剧集数",default=0,help_text="如果是剧集则按集数填写")
-    player_url = models.FileField(upload_to=UploadUtils.video_path,verbose_name="视频上传")
-    icon = models.ImageField(upload_to=UploadUtils.video_path,verbose_name="封面")
+    video_url = models.FileField(upload_to=UploadUtils.video_path,verbose_name="视频上传")
+    video_icon = models.ImageField(upload_to=UploadUtils.video_path,verbose_name="封面")
     desc = models.CharField(max_length=8,null=True,blank=True,help_text="如果是剧集则必须填写")
     is_publish = models.BooleanField(default=False, verbose_name="是否发布")
 

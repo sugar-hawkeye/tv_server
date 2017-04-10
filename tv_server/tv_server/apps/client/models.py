@@ -27,21 +27,25 @@ class ClientAuth(models.Model):
     class Meta:
         db_table="client_auth"
         get_latest_by = 'identity_type'
+        verbose_name_plural = '客户认证'
+        verbose_name = '客户认证'
 
 class Client(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
 
-    email = models.EmailField(unique=True,null=True,blank=True)
-    phone = models.CharField(max_length=20,unique=True,null=True,blank=True)
-    client_id = models.OneToOneField(ClientAuth, on_delete=models.CASCADE,primary_key=True)
-    nickname = models.CharField(max_length=20,null=True,blank=True)
-    headshot = models.ImageField(upload_to=UploadUtils.avator_path, null=True, blank=True)
+    email = models.EmailField(unique=True,null=True,blank=True,verbose_name='邮箱')
+    phone = models.CharField(max_length=20,unique=True,null=True,blank=True,verbose_name='手机号')
+    client_id = models.OneToOneField(ClientAuth, on_delete=models.CASCADE,primary_key=True,verbose_name='客户id')
+    nickname = models.CharField(max_length=20,null=True,blank=True,verbose_name='昵称')
+    headshot = models.ImageField(upload_to=UploadUtils.avator_path, null=True, blank=True,verbose_name='头像')
 
     class Meta:
         db_table="client"
         get_latest_by = 'created_at'
         ordering = ['created_at']
+        verbose_name_plural='客户详情'
+        verbose_name='客户详情'
 
 
 class VideoFavorite(models.Model):
