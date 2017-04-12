@@ -24,7 +24,7 @@ class Video(models.Model):
     is_publish = models.BooleanField(default=False,verbose_name="是否发布")
     is_serial = models.BooleanField(default=False,verbose_name="是否是剧集")
 
-    channel_id = models.ForeignKey(Channel,on_delete=models.SET_NULL,verbose_name="所属频道",null=True,blank=True)
+    channel_id = models.ForeignKey(Channel,on_delete=models.PROTECT,verbose_name="所属频道")
     tag_id = models.ManyToManyField(Tag, verbose_name="一级标签")
     tag_info = models.ManyToManyField(TagInfo,verbose_name="二级标签")
 

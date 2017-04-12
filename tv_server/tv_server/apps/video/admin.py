@@ -7,18 +7,19 @@ from models import Video,Cover,VideoList
 
 from forms import CoverForm,VideoListForm
 
-class CoverAdmin(admin.ModelAdmin):
+class CoverAdmin(admin.TabularInline):
+    model = Cover
     form = CoverForm
     list_display = ('video_id','image_type','show_icon')
 
-    def save_model(self, request, obj, form, change):
-        if not request.FILES:
-            messages.error(request, ' 图片不能为空')
-            obj.cover_pic = None
-
-        else:
-            obj.created_by = request.user
-            super(CoverAdmin, self).save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     if not request.FILES:
+    #         messages.error(request, ' 图片不能为空')
+    #         obj.cover_pic = None
+    #
+    #     else:
+    #         obj.created_by = request.user
+    #         super(CoverAdmin, self).save_model(request, obj, form, change)
 
 
 
@@ -62,9 +63,9 @@ class VideoAdmin(admin.ModelAdmin):
 
     search_fields = ('video_name',)
     filter_horizontal = ('tag_id','tag_info')
-    # inlines = [
-    #     CoverAdmin,
-    # ]
+    inlines = [
+        CoverAdmin,
+    ]
 
 
 
@@ -82,15 +83,8 @@ class VideoAdmin(admin.ModelAdmin):
 
 
 
-    # def get_tag_info(self,obj):
-    #     names = [str(p) for p in obj.tag_info.all()]
-    #     title = ''
-    #     for name in names:
-    #         title += name[name.find('---') + 3:]+","
-    #     return title
-    #
-    # get_tag_info.short_description = "二级标签"
+
 
 admin.site.register(Video,VideoAdmin)
 admin.site.register(VideoList,VideoListAdmin)
-admin.site.register(Cover,CoverAdmin)
+# admin.site.register(Cover,CoverAdmin)

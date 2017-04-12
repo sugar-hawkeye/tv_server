@@ -13,7 +13,7 @@ class Channel(models.Model):
     created_by = models.ForeignKey(User,editable=False,on_delete=models.SET_NULL,verbose_name="创建人",null=True,blank=True)
 
     title = models.CharField(max_length=10,verbose_name="标题",unique=True)
-    cover = models.ImageField(upload_to=UploadUtils.channel_path,null=True,blank=True,verbose_name="图标")
+    cover = models.ImageField(upload_to=UploadUtils.channel_path,verbose_name="图标")
     priority = models.IntegerField(verbose_name="排列顺序")
     is_publish = models.BooleanField(default=False,verbose_name="是否发布")
 

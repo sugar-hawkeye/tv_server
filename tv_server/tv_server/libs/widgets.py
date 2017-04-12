@@ -9,13 +9,12 @@ class SingleImageInput(ClearableFileInput):
 
 
     def render(self, name, value, attrs=None):
-        context = {'id_key': attrs['id'], 'name': name,
-                   'method': str(name).replace('-', '_') + attrs['id'].replace('-', '_') + '()'}
 
-        if str(name).find('video_url') == 0:
-            context['is_video'] = True
-        else:
-            context['is_video'] = False
+        namestr = str(name).replace('-', '_')
+        idstr = attrs['id'].replace('-', '_')
+        context = {'id_key': idstr, 'name': name,
+                   'method':  namestr + idstr + '()'}
+
         if value :
             context['file'] = 'http://127.0.0.1:8000' + value.url
             # context.setdefault('icon',default=('http://127.0.0.1:8000' + value.url))

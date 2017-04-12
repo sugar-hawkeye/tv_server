@@ -3,40 +3,21 @@
 
 {#<link href="{% static 'css/single_image_upload.css' %}" rel="stylesheet" type="text/css" />#}
 {#<script src="{% static "js/single_image_upload.js" %}" type="text/javascript"></script>#}
+
+
 <div class="fileupload">
-
-
     {% if file  %}
-        <img id="close_btn" onclick="dropimg()" src="{% static 'images/close_btn.png'%}" >
-        {% if is_video %}
-            <video id="{{ name }}" src="{{ file }}"  width="120px"; height="120px"></video>
-            {% else %}
-            <img  id="{{ name }}" src="{{ file }}"  width="120px"; height="120px";>
-        {% endif %}
+        <img  id="{{ name }}" src="{{ file }}"  width="120px"; height="120px";>
     {% else %}
-         <img id="close_btn" onclick="dropimg()" src="{% static 'images/close_btn.png'%}" hidden="false">
         <img  id="{{ name }}" src="{% static 'images/file_add_btn.png' %}" width="120px"; height="120px">
-
     {% endif %}
-
-{# accept="image/*"#}
-    <input type="file" {% if id_key %} id="{{ id_key }}" {% endif %} name="{{ name }}" onchange="{{ method }}"/>
-
-
+    <input type="file" {% if id_key %} id="{{ id_key }}" {% endif %} name="{{ name }}" accept="image/*" onchange="{{ method }}" required="required"/>
 </div>
 
 
 <script>
 
-    function dropimg(){
-        document.getElementById("close_btn").hidden = true;
 
-        var file = document.getElementById("{{ id_key }}");
-        file = null;
-
-        var img = document.getElementById("{{ name }}");
-        img.src = "{% static 'images/file_add_btn.png' %}";
-    }
 
     function {{ method }} {
     if (typeof FileReader === 'undefined') {
@@ -45,29 +26,11 @@
     }
     var reader = new FileReader();
     reader.onload = function(e) {
-         var img = document.getElementById("{{ name }}");
+        var img = document.getElementById("{{ name }}");
+        img.src = this.result;
 
-        {% if name == 'video_url' %}
-
-
-            var video=document.createElement("video");
-            video.id = {{ name }}
-            video.src = this.result
-            video.width="120px";
-            video.height="120px";
-
-            img.parentNode.appendChild(video);
-
-{#            img.parentNode.removeChild(img);#}
-            {% else %}
-            img.src = this.result;
-        {% endif %}
-
-
-        var btn = document.getElementById("close_btn");
+        var btn = document.getElementById("close_btn{{ name }}");
         btn.hidden = false;
-
-
     }
     var file = document.getElementById("{{ id_key }}").files[0];
     reader.readAsDataURL(file);
