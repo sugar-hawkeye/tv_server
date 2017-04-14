@@ -45,8 +45,16 @@ class Cover(models.Model):
     created_by = models.ForeignKey(User, editable=False, on_delete=models.SET_NULL, verbose_name="创建人", null=True,
                                    blank=True)
 
+    type_choice = (
+        ('120', '120*120'),
+        ('320', '320*150'),
+        ('120', '120*400'),
+        ('80', '80*80'),
+
+    )
+
     video_id = models.ForeignKey(Video,on_delete=models.CASCADE,verbose_name="视频id")
-    image_type = models.CharField(max_length=20,verbose_name="图片类型")
+    image_type = models.CharField(max_length=10, choices=type_choice,verbose_name="图片类型")
     cover_pic = models.ImageField(upload_to=UploadUtils.video_path,verbose_name="图片")
 
     class Meta:
