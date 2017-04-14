@@ -32,19 +32,19 @@ class CoverAdmin(admin.TabularInline):
     show_icon.short_description = "封面"
     show_icon.allow_tags = True
 
-class VideoListAdmin(admin.ModelAdmin):
-    # model = VideoList
-    list_display = ('video_id', 'video_name', 'video_index','show_video','video_icon','is_publish')
+class VideoListAdmin(admin.TabularInline):
+    model = VideoList
+    list_display = ('video_id', 'video_name', 'video_index','show_video','show_icon','is_publish')
     form = VideoListForm
     # search_fields = ('video_id','video_name')
 
-    def show_video(self,obj):
-        if obj.video_url:
-            return u'<a href="%s%s"><video src="http://127.0.0.1:8000%s%s" height=60px></video></a>' % (MEDIA_URL,obj.video_url,MEDIA_URL,obj.video_url)
+    def show_icon(self,obj):
+        if obj.video_icon:
+            return u'<a href="%s%s"><img src="http://127.0.0.1:8000%s%s" height=60px></img></a>' % (MEDIA_URL,obj.show_icon,MEDIA_URL,obj.show_icon)
         else:
             return u'&nbsp;'
-    show_video.short_description = "视频"
-    show_video.allow_tags = True
+    show_icon.short_description = "图片"
+    show_icon.allow_tags = True
 
 
 class VideoAdmin(admin.ModelAdmin):
@@ -65,6 +65,7 @@ class VideoAdmin(admin.ModelAdmin):
     filter_horizontal = ('tag_id','tag_info')
     inlines = [
         CoverAdmin,
+        VideoListAdmin,
     ]
 
 
@@ -86,5 +87,5 @@ class VideoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Video,VideoAdmin)
-admin.site.register(VideoList,VideoListAdmin)
+# admin.site.register(VideoList,VideoListAdmin)
 # admin.site.register(Cover,CoverAdmin)

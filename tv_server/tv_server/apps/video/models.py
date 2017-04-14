@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from tv_server.apps.tag.models import Tag,TagInfo
 from tv_server.apps.channel.models import Channel
 
+from django.core.validators import URLValidator
 from tv_server.libs import UploadUtils
 
 
@@ -68,7 +69,7 @@ class VideoList(models.Model):
     video_id = models.ForeignKey(Video,on_delete=models.CASCADE,verbose_name='视频id')
     video_name = models.CharField(max_length=50,verbose_name="视频名")
     video_index = models.IntegerField(verbose_name="剧集数",default=0,help_text="如果是剧集则按集数填写")
-    video_url = models.FileField(upload_to=UploadUtils.video_path,verbose_name="视频上传")
+    video_url = models.URLField(validators=[URLValidator],verbose_name="视频地址")
     video_icon = models.ImageField(upload_to=UploadUtils.video_path,verbose_name="封面")
     desc = models.CharField(max_length=8,null=True,blank=True,help_text="如果是剧集则必须填写")
     is_publish = models.BooleanField(default=False, verbose_name="是否发布")

@@ -11,4 +11,4 @@ def video_path(instance,filename):
 
 def avator_path(instance,filename):
     name = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
-    return 'manager/avator/%s' % instance.id+name+filename
+    return 'manager/avator/%s' % name+filename
