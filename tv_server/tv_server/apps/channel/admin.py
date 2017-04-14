@@ -20,8 +20,7 @@ class ChannelAdmin(admin.ModelAdmin):
 
 
     def save_model(self, request, obj, form, change):
-        if not request.FILES:
-            obj.cover = None
+
         obj.created_by = request.user
 
         super(ChannelAdmin,self).save_model(request,obj,form,change)
