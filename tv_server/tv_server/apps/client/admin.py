@@ -12,7 +12,8 @@ class ClientAdmin(admin.StackedInline):
 
 class ClientAuthAdmin(admin.ModelAdmin):
     form = ClientAuthForm
-    list_display = ('identifier','identity_type')
+
+    list_display = ('identity_type', 'identifier','credential')
     inlines = [
         ClientAdmin,
     ]
