@@ -7,6 +7,8 @@ from tv_server.apps.channel.models import Channel
 from django.contrib.auth.models import User
 
 
+from smart_selects.db_fields import ChainedForeignKey
+
 
 class Tag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -19,6 +21,7 @@ class Tag(models.Model):
     channel_id = models.ForeignKey(Channel, on_delete=models.SET_NULL, verbose_name="所属频道",null=True)
 
     def __unicode__(self):
+        return self.title
         return unicode(self.channel_id) + u'--' + self.title
 
     class Meta:
@@ -33,7 +36,16 @@ class TagInfo(models.Model):
     edited_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User,editable=False,on_delete=models.SET_NULL,verbose_name="创建人",null=True,blank=True)
 
-    tag_id = models.ForeignKey(Tag,on_delete=models.SET_NULL,verbose_name='一级标签',null=True)
+    channel_id = models.ForeignKey(Channel, on_delete=models.SET_NULL, verbose_name="所属频道", null=True)
+    # tag_id = models.ForeignKey(Tag,on_delete=models.SET_NULL,verbose_name='一级标签',null=True)
+    tag_id = ChainedForeignKey(
+        Tag,
+        chained_field="channel_id",
+        chained_model_field="channel_id",
+        sort=True,
+        verbose_name='所属一级标签'
+    )
+
     title = models.CharField(max_length=15,verbose_name="二级标签名")
     priority = models.IntegerField(verbose_name="排列顺序")
 

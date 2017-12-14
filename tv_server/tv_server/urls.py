@@ -19,14 +19,22 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework.documentation import include_docs_urls
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^chaining/', include('smart_selects.urls')),
+
 ]
 
 urlpatterns += [
+    url(r'^docs/', include_docs_urls(title='Video API')),
     url(r'^api/',include('tv_server.apps.channel.urls')),
     url(r'^api/',include('tv_server.apps.tag.urls')),
     url(r'^api/',include('tv_server.apps.video.urls')),
+    url(r'^api/',include('tv_server.apps.comment.urls')),
+    url(r'^api/',include('tv_server.apps.client.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

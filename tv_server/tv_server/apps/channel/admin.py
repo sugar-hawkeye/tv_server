@@ -11,11 +11,10 @@ from forms import ChannelForm
 
 class ChannelAdmin(admin.ModelAdmin):
     fields = ('title', 'cover', 'priority','is_publish')
-    list_display = ('title','show_icon','created_by','created_at','is_publish')
+    list_display = ('id','title','cover','created_by','created_at','is_publish')
+
 
     form = ChannelForm
-
-
     readonly_fields = ('show_icon',)
 
 
@@ -37,4 +36,6 @@ class ChannelAdmin(admin.ModelAdmin):
 
 admin.AdminSite.site_header = '视频管理系统'
 admin.AdminSite.site_title = '视频管理系统'
+admin.AdminSite.index_title = '视频管理系统'
+
 admin.site.register(Channel, ChannelAdmin)

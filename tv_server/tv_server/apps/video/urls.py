@@ -1,23 +1,18 @@
 from django.conf.urls import url,include
 
-from rest_framework import routers,serializers,viewsets
-
-from models import Video,Cover
-
-
-class VideoSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Video
-        fields = ('video_name','tag_id','tag_info')
-
-class VideoViewSet(viewsets.ModelViewSet):
-    queryset = Video.objects.all().filter(is_publish=True)
-    serializer_class =  VideoSerializer
-
-video_router = routers.DefaultRouter()
-video_router.register(r'get_list',VideoViewSet)
+from .views import VideoSet,VideoDetail,CoverDetail,VideoListDetail,VideoCountDetail
 
 urlpatterns = [
-    url(r'^video/', include(video_router.urls)),
+    url(r'^videolist/(?P<channelId>[0-9]+)/$', VideoSet.as_view()),
+    url(r'^videolist/(?P<channelId>[0-9]+)/(?P<tagId>[0-9]+)/$', VideoSet.as_view()),
+    url(r'^videolist/(?P<channelId>[0-9]+)/(?P<tagId>[0-9]+)/(?P<tagInfo>[0-9]+)/$', VideoSet.as_view()),
+    # url(r'^videolist/(?P<channelId>[0-9]+)/(?P<tagId>[0-9]+)/$', TagInfoList.as_view()),
 
+    url(r'^videodetail/(?P<videoId>[0-9]+)/$', VideoDetail.as_view()),
+    url(r'^coverdetail/(?P<videoId>[0-9]+)/$', CoverDetail.as_view()),
+    url(r'^videoset/(?P<videoId>[0-9]+)/$', VideoListDetail.as_view()),
+    url(r'^videocount/(?P<videoId>[0-9]+)/$', VideoCountDetail.as_view()),
 ]
+
+
+

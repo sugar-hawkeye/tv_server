@@ -7,3 +7,6 @@ from django.apps import AppConfig
 class CommentConfig(AppConfig):
     name = 'tv_server.apps.comment'
     verbose_name = '评论管理'
+
+    def ready(self):
+        import signals

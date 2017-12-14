@@ -1,22 +1,11 @@
-from django.conf.urls import url,include
+from django.conf.urls import url
+from rest_framework.urlpatterns import format_suffix_patterns
+from views import channel_list,channel_detail
 
-from rest_framework import routers,serializers,viewsets
-
-from models import Channel
-
-class ChannelSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Channel
-        fields = ('title','icon','priority','is_publish')
-
-class ChannelViewSet(viewsets.ModelViewSet):
-    queryset = Channel.objects.all().filter(is_publish=True)
-    serializer_class =  ChannelSerializer
-
-
-router = routers.DefaultRouter()
-router.register(r'get_channel',ChannelViewSet)
 
 urlpatterns = [
-    url(r'^channel/', include(router.urls)),
+    url(r'channels/$', channel_list),
+    url(r'channels/(?P<pk>[0-9]+)/$', channel_detail),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

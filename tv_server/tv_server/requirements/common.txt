@@ -6,3 +6,7 @@ argon2-cffi==16.1.0
 djangorestframework==3.6.2
 django-guardian==1.4.6
 argon2-cffi==16.1.0
+django-smart-selects==1.5.2
+coreapi==2.3.3
+Babel==2.5.1
+coreapi-cli==1.0.6

@@ -10,3 +10,5 @@ DATABASES = {
         'PASSWORD':'123456',
     }
 }
+
+ALLOWED_HOSTS = ['192.168.80.190','127.0.0.1']

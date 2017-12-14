@@ -6,6 +6,7 @@ from django.db import models
 
 from tv_server.apps.client.models import Client
 from tv_server.apps.video.models import Video
+from signals import custom_post_save,save_handler
 
 class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -20,7 +21,7 @@ class Comment(models.Model):
         ('A', 'Android'),
         ('P', 'PC'),
     )
-    from_source = models.CharField(max_length=1,choices=type_choice,verbose_name='评论来源')
+    from_source = models.CharField(max_length=1,choices=type_choice,verbose_name='评论来源',default='P')
 
     class Meta:
         db_table = "comment"
@@ -28,3 +29,18 @@ class Comment(models.Model):
         ordering = ['created_at']
         verbose_name_plural = '评论'
         verbose_name = '评论'
+
+    def __unicode__(self):
+        return unicode(self.video_id)
+
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     model = super(Comment,self).save(force_insert,force_update,using,update_fields)
+        # custom_post_save.send(sender=save_handler,ancestor=)
+
+class CommentPath(models.Model):
+    comment_id = models.BigIntegerField()
+    descendant_id = models.BigIntegerField()
+
+    class Meta:
+        db_table = "comment_path"

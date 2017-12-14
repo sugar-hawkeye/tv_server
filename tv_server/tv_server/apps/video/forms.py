@@ -3,7 +3,7 @@
 from django.forms import ModelForm
 from django import forms
 
-from models import Cover,VideoList
+from models import Cover,VideoList,Video
 
 from tv_server.libs.widgets import SingleImageInput
 
@@ -26,4 +26,15 @@ class VideoListForm(ModelForm):
         widgets = {
             # 'video_url' : SingleImageInput,
             'video_icon':SingleImageInput,
+        }
+
+
+class VideoForm(ModelForm):
+
+    class Meta:
+        model = Video
+        fields = '__all__'
+
+        widgets = {
+            'cover_pic' : SingleImageInput
         }

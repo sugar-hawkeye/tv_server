@@ -19,7 +19,6 @@ class ClientAuth(models.Model):
         ('W', 'Weibo'),
         ('C', 'WeChat'),
         ('Q', 'QQ'),
-        ('U', "Username")
     )
     identity_type = models.CharField(max_length=1, choices=type_choice,verbose_name='登录类型')
     identifier = models.CharField(max_length=100,verbose_name='用户名',unique=True)
