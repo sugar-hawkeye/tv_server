@@ -2,7 +2,10 @@
 
 from __future__ import unicode_literals
 
+import time
+
 from django.db import models
+
 
 from tv_server.apps.client.models import Client
 from tv_server.apps.video.models import Video
@@ -12,7 +15,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
 
-    video_id = models.ForeignKey(Video, on_delete=models.CASCADE,verbose_name='视频id')
+    video = models.ForeignKey(Video, on_delete=models.CASCADE,verbose_name='视频id')
     content = models.TextField(verbose_name='内容')
     client_id = models.IntegerField(verbose_name='客户id')
 
@@ -36,11 +39,12 @@ class Comment(models.Model):
     # def save(self, force_insert=False, force_update=False, using=None,
     #          update_fields=None):
     #     model = super(Comment,self).save(force_insert,force_update,using,update_fields)
-        # custom_post_save.send(sender=save_handler,ancestor=)
+    #     custom_post_save.send(sender=save_handler,ancestor=)
 
 class CommentPath(models.Model):
     comment_id = models.BigIntegerField()
     descendant_id = models.BigIntegerField()
+    level = models.IntegerField(default=0)
 
     class Meta:
         db_table = "comment_path"

@@ -16,16 +16,17 @@ class CommentList(APIView):
         return Response(serializer.data)
 
 class CommentDetail(APIView):
-    def put(self,request,commentId=None,format=None):
+    def post(self,request,commentId=None,format=None):
 
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
             obj = serializer.save()
-
             obj1 = CommentPath(comment_id=obj.id,descendant_id=obj.id)
             obj1.save()
             if commentId:
-                obj2 = CommentPath(comment_id=commentId,descendant_id=obj.id)
+                sql = 'select count(*) from comment_path where descendant_id=%s AND comment_id!=%s;'% (obj.id,obj.id)
+                num = CommentPath.objects.ra
+                obj2 = CommentPath(comment_id=commentId,descendant_id=obj.id,level=)
                 obj2.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
